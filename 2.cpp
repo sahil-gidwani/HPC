@@ -10,6 +10,7 @@ using namespace std;
 // Sequential Bubble Sort Algorithm
 void sequentialBubble(int *a, int n) {
     for (int i = 0; i < n; i++) {
+        // Last i elements are already sorted, so inner loop can be reduced
         for (int j = 0; j < n - 1; j++) {
             if (a[j] > a[j + 1]) {
                 swap(a[j], a[j + 1]); // Swap elements if out of order
@@ -19,29 +20,30 @@ void sequentialBubble(int *a, int n) {
 }
 
 // Parallel Bubble Sort Algorithm
+// void parallelBubble(int *a, int n) {
+//     #pragma omp parallel for shared(a, n)
+//     for (int i = 0; i < n; i++) {
+//         // Last i elements are already sorted, so inner loop can be reduced
+//         for (int j = 0; j < n - 1; j++) {
+//             if (a[j] > a[j + 1]) {
+//                 swap(a[j], a[j + 1]); // Swap elements if out of order
+//             }
+//         }
+//     }
+// }
+
 void parallelBubble(int *a, int n) {
-    #pragma omp parallel for shared(a, n)
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n - 1; j++) {
+        int first = i % 2;
+
+        #pragma omp parallel for shared(a, first, n)
+        for (int j = first; j < n - 1; j += 2) {
             if (a[j] > a[j + 1]) {
                 swap(a[j], a[j + 1]); // Swap elements if out of order
             }
         }
     }
 }
-
-// void parallelBubble(int *a, int n) {
-//     for (int i = 0; i < n; i++) {
-//         int first = i % 2;
-
-//         #pragma omp parallel for shared(a, first)
-//         for (int j = first; j < n - 1; j += 2) {
-//             if (a[j] > a[j + 1]) {
-//                 swap(a[j], a[j + 1]);
-//             }
-//         }
-//     }
-// }
 
 // Merge Function for Merge Sort Algorithm
 void merge(int *arr, int l, int m, int r) {
@@ -178,7 +180,7 @@ int main() {
 
     // Measure sequential merge sort time
     startSeq = omp_get_wtime();
-    sequentialMergeSort(a,0, n-1);
+    sequentialMergeSort(a, 0, n-1);
     endSeq = omp_get_wtime();
     cout << "Sequential Merge Sort Time: " << endSeq - startSeq << " seconds" << endl;
 
@@ -193,7 +195,7 @@ int main() {
 
     // Measure parallel merge sort time
     startPar = omp_get_wtime();
-    parallelMergeSort(a,0,n-1);
+    parallelMergeSort(a, 0, n-1);
     endPar = omp_get_wtime();
     cout << "Parallel Merge Sort Time: " << endPar - startPar << " seconds" << endl;
 
