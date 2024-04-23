@@ -15,7 +15,7 @@
 // Kernel function for vector addition
 __global__ void vectorAdd(int *a, int *b, int *c, int n) {
     // int index = blockIdx.x * blockDim.x + threadIdx.x;
-    int index = threadIdex.x;
+    int index = threadIdx.x;
     if (index < n) {
         c[index] = a[index] + b[index];
     }
