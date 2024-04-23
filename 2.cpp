@@ -11,7 +11,7 @@ using namespace std;
 void sequentialBubble(int *a, int n) {
     for (int i = 0; i < n; i++) {
         // Last i elements are already sorted, so inner loop can be reduced
-        for (int j = 0; j < n - 1; j++) {
+        for (int j = 0; j < n - i - 1; j++) {
             if (a[j] > a[j + 1]) {
                 swap(a[j], a[j + 1]); // Swap elements if out of order
             }
