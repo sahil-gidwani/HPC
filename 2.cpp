@@ -484,4 +484,38 @@ Parallel Bubble Sort and Parallel Merge Sort are parallelized versions of the tr
 - Parallel Bubble Sort and Parallel Merge Sort are parallelized versions of the traditional sorting algorithms designed to exploit parallelism for faster sorting of large datasets.
 - Parallel Merge Sort generally outperforms Parallel Bubble Sort in terms of efficiency and scalability, particularly on large datasets, due to its superior time complexity.
 - The choice between Parallel Bubble Sort and Parallel Merge Sort depends on factors such as dataset size, computational resources, and performance requirements.
+
+
+Odd-even transposition sort is a parallel sorting algorithm that is suitable for distributed-memory parallel architectures, such as clusters of computers or parallel computers with interconnected processors. It is based on the idea of repeatedly exchanging adjacent elements in the array until the entire array is sorted.
+
+Here's how the algorithm works:
+
+1. **Initialization**:
+   - Each processor in the parallel system holds a portion of the array to be sorted.
+   - The array is divided evenly among the processors, with each processor responsible for sorting its own portion of the array.
+
+2. **Odd-even Transposition Sort Iterations**:
+   - The algorithm consists of multiple iterations, with each iteration performing two phases: the odd phase and the even phase.
+   - In each phase, neighboring elements are compared and exchanged if they are out of order.
+   - The odd phase involves comparing and exchanging elements at odd indices (1, 3, 5, ...) with their neighboring elements.
+   - The even phase involves comparing and exchanging elements at even indices (0, 2, 4, ...) with their neighboring elements.
+
+3. **Communication and Exchange**:
+   - During each phase, neighboring processors exchange elements that are out of order.
+   - Processors communicate with their neighboring processors to exchange elements as necessary. This communication is typically performed through message passing in distributed-memory systems.
+
+4. **Parallel Execution**:
+   - The odd and even phases can be executed concurrently by different processors or threads.
+   - Each processor performs the comparisons and exchanges locally on its portion of the array.
+   - Synchronization may be required between processors to ensure that each phase completes before proceeding to the next phase.
+
+5. **Iteration and Convergence**:
+   - After completing both the odd and even phases, the algorithm repeats the process for a fixed number of iterations or until the array is sorted.
+   - The number of iterations required depends on the size of the array and the degree of disorder.
+
+6. **Completion and Sorted Array**:
+   - Once the algorithm completes all iterations, each processor holds its portion of the array, which is now partially sorted.
+   - Additional steps may be necessary to merge the partially sorted portions of the array into a single sorted array, depending on the specific parallel system and programming model used.
+
+Overall, the odd-even transposition sort algorithm is efficient for parallel sorting on distributed-memory architectures, as it minimizes communication overhead by only exchanging neighboring elements and can exploit parallelism by executing multiple phases concurrently. However, its performance depends on factors such as the number of processors, communication latency, and the size and distribution of the input data.
 */
