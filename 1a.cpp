@@ -34,9 +34,10 @@ public:
         visited[start] = true; // Mark the starting vertex as visited
 
         // Perform BFS traversal
-        #pragma omp parallel
-        {
-            while (!q.empty()) {
+        while (!q.empty()) {
+            int size = q.size(); // Get the current size of the queue
+            #pragma omp parallel for
+            for (int i = 0; i < size; ++i) {
                 int u;
                 #pragma omp critical
                 {
