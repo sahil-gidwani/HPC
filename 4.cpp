@@ -14,7 +14,8 @@
 
 // Kernel function for vector addition
 __global__ void vectorAdd(int *a, int *b, int *c, int n) {
-    int index = blockIdx.x * blockDim.x + threadIdx.x;
+    // int index = blockIdx.x * blockDim.x + threadIdx.x;
+    int index = threadIdex.x;
     if (index < n) {
         c[index] = a[index] + b[index];
     }
@@ -59,7 +60,8 @@ int main() {
     // Launch kernel for vector addition
     int blockSize = 256;
     int gridSize = (n + blockSize - 1) / blockSize;
-    vectorAdd<<<gridSize, blockSize>>>(d_a, d_b, d_c, n);
+    // vectorAdd<<<gridSize, blockSize>>>(d_a, d_b, d_c, n);
+    vectorAdd<<<1, n>>>(d_a, d_b, d_c, n);
 
     // Copy result back to host
     cudaMemcpy(c, d_c, size, cudaMemcpyDeviceToHost);
